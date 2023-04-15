@@ -20,6 +20,14 @@ export {
 } from './date-utils';
 
 export { intervalPromise, TIntervalPromiseOptions, TStopIntervalPromiseFunc } from './interval-promise';
+
+export {
+  ITraverseNode,
+  traverse,
+  flattenObjectPrimitiveLeafs,
+  cloneDeep,
+} from './object-utils';
+
 export {
   padL,
   padR,
@@ -32,7 +40,6 @@ export {
   getTimeParamFromMillis,
   getTimeParamMillis,
   sleep,
-  cloneDeep,
   memUsage,
-  getInstanceKey
+  getInstanceKey,
 } from './utils';

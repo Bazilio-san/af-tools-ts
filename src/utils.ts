@@ -1,5 +1,6 @@
 import * as os from 'os';
 import * as crypto from 'crypto';
+import { flattenObjectPrimitiveLeafs } from "./object-utils";
 
 let instanceKey: string;
 
@@ -155,38 +156,6 @@ export const getTimeParamFromMillis = (millis: number, roundTo: 'd' | 'h' | 'm' 
   return `${days} d`;
 };
 
-export const cloneDeep = <T = any> (
-  obj: any,
-  options: { pureObj?: boolean, skipSymbols?: boolean } = {},
-  hash = new WeakMap(),
-): T => {
-  // https://stackoverflow.com/a/40294058/5239731
-  const { pureObj = false, skipSymbols = false } = options;
-  if (Object(obj) !== obj) return obj; // primitives
-  if (hash.has(obj)) return hash.get(obj); // cyclic reference
-  let result;
-  if (obj instanceof Set) {
-    result = new Set(obj); // See note about this!
-  } else if (obj instanceof Map) {
-    result = new Map(Array.from(obj, ([key, val]) => [key, cloneDeep(val, options, hash)]));
-  } else if (obj instanceof Date) {
-    result = new Date(obj);
-  } else if (obj instanceof RegExp) {
-    result = new RegExp(obj.source, obj.flags);
-  } else if (obj instanceof Function) {
-    result = obj;
-  } else if (!pureObj && obj.constructor) {
-    result = new obj.constructor();
-  } else {
-    result = Object.create(null);
-  }
-  hash.set(obj, result);
-  const keys = [...Object.keys(obj), ...(skipSymbols ? [] : Object.getOwnPropertySymbols(obj))];
-  return Object.assign(result, ...keys.map(
-    (key) => ({ [key]: cloneDeep(obj[key], options, hash) }),
-  ));
-};
-
 export const getBool = (v: any, def = false): boolean => {
   if (v == null) {
     return def;
@@ -224,3 +193,15 @@ export const intEnv = (name: string, def: number) => Math.ceil(floatEnv(name, de
 export const strEnv = (name: string, def: string) => process.env[name] || def;
 
 export const boolEnv = (name: string, def = false) => getBool(process.env[name], def);
+
+/**
+ * Replacing {place_name} substitution places with the values of properties of the same name from obj
+ */
+export const fillBracketTemplate = (template: string, obj: any): string => {
+  const flattened = flattenObjectPrimitiveLeafs(obj);
+  template = template.replace(/{([\w]+)}/g, (place: any, placeName: any) => {
+    const val = flattened[String(placeName)];
+    return val === undefined ? place : val;
+  });
+  return template;
+};
