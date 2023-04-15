@@ -1,6 +1,6 @@
 {
-  "name": "af-tools",
-  "version": "0.0.2",
+  "name": "af-tools-ts",
+  "version": "1.0.3",
   "description": "tools",
   "main": "./dist/cjs/src/index.js",
   "module": "./dist/esm/index.js",
@@ -10,7 +10,7 @@
   "keywords": [
     "tools"
   ],
-  "productName": "AF tools",
+  "productName": "AF tools (ts)",
   "scripts": {
     "clean": "shx rm -rf dist/*",
     "build": "tsc -b tsconfig.json tsconfig.esm.json tsconfig.types.json",
@@ -58,7 +58,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Bazilio-san/af-tools.git"
+    "url": "git+https://github.com/Bazilio-san/af-tools-ts.git"
   },
   "engines": {
     "node": ">= 14",
