@@ -29,6 +29,10 @@ export {
 } from './object-utils';
 
 export {
+  removeHTML,
+} from './text-utils';
+
+export {
   padL,
   padR,
   getBool,
