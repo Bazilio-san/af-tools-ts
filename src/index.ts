@@ -42,4 +42,5 @@ export {
   sleep,
   memUsage,
   getInstanceKey,
+  fillBracketTemplate,
 } from './utils';
