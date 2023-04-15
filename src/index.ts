@@ -20,3 +20,19 @@ export {
 } from './date-utils';
 
 export { intervalPromise, TIntervalPromiseOptions, TStopIntervalPromiseFunc } from './interval-promise';
+export {
+  padL,
+  padR,
+  getBool,
+  boolEnv,
+  floatEnv,
+  intEnv,
+  strEnv,
+  timeParamRE,
+  getTimeParamFromMillis,
+  getTimeParamMillis,
+  sleep,
+  cloneDeep,
+  memUsage,
+  getInstanceKey
+} from './utils';
