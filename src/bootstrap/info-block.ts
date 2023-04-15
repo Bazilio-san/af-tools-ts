@@ -20,16 +20,21 @@ export const infoBlock = (
   const eq = '='.repeat(Math.max(1, Math.ceil((width - noEsc(title).length) / 2)));
   let text: string;
   if (Array.isArray(info)) {
-    const maxLenOfLabels = Math.max(...info.filter((v) => Array.isArray(v)).map(([label]) => noEsc(label).length));
+    const maxLenOfLabels = Math.max(...info.filter((v) => Array.isArray(v)).map(([label = '']) => noEsc(label).length));
     padding = padding === 0 ? maxLenOfLabels + 3 : Math.max(maxLenOfLabels + 3, padding);
 
     const pad = (v: any) => String(v) + ' '.repeat(padding - String(v).length);
 
-    text = info.map((v) => (
-      Array.isArray(v)
-        ? `${labelColor}${pad(`${v[0]}:`)}${valueColor}${v[1]}${rs}`
-        : valueColor + v
-    )).filter(Boolean).join('\n');
+    text = info.map((v) => {
+      if (Array.isArray(v)) {
+          const [label = '', value = ''] = v;
+        return `${labelColor}${pad(`${label}:`)}${valueColor}${value}${rs}`
+      } else {
+         if(v) {
+           return valueColor + v;
+         }
+      }
+    }).filter(Boolean).join('\n');
   } else {
     text = valueColor + info;
   }

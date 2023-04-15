@@ -41,6 +41,6 @@ export const configInfo = (arg: { cfg: any, debugId?: string, dotEnvResult?: any
       ...configSrc.map((v) => v.name.replace(configDir, '')),
     ],
   });
-  infoBlock({ echo, title: 'ACTUAL SOURCES', info: YAML.stringify(cfg), valueColor: cyan });
-  infoBlock({ echo, title: 'Using .env', info: YAML.stringify(envsUsed), titleColor: yellow, valueColor: yellow });
+  infoBlock({ echo, title: 'ACTUAL SOURCES', info: YAML.stringify(cfg).trim(), valueColor: cyan });
+  infoBlock({ echo, title: 'Using .env', info: YAML.stringify(envsUsed).trim(), titleColor: yellow, valueColor: yellow });
 };

@@ -1,14 +1,15 @@
-import * as config from 'config';
+import { config } from './init-config';
 import { yellow } from 'af-color';
 import { echo } from 'af-echo-ts';
 import { configInfo, consulInfo, infoBlock, nodeConfigEnvInfo } from '../src';
 import dotEnvResult from './dotenv';
 
-const startupInfo = () => {
-  const cfg: any = config as any;
-  configInfo({ dotEnvResult, cfg, debugId: 'test-config-info' });
+export const cfg: any = config;
 
+const startupInfo = () => {
+  configInfo({ dotEnvResult, cfg, debugId: 'test-config-info' });
   const info = infoBlock({
+    echo,
     info: [
       `${yellow}${cfg.description} (v ${cfg.version})`,
       nodeConfigEnvInfo(),
@@ -16,7 +17,6 @@ const startupInfo = () => {
       ['DEBUG', (process.env.DEBUG || '')],
     ],
   });
-  echo.info(`\n${info}`);
 
   consulInfo(cfg);
 };
