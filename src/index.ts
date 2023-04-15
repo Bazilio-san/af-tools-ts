@@ -18,3 +18,5 @@ export {
   START_OF_ERA_ISO,
   LOCAL_TIMEZONE,
 } from './date-utils';
+
+export { intervalPromise, TIntervalPromiseOptions, TStopIntervalPromiseFunc } from './interval-promise';
