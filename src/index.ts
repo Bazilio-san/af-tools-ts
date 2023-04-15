@@ -11,3 +11,10 @@ export { consulInfo } from './bootstrap/consul-info';
 export { infoBlock } from './bootstrap/info-block';
 export { nodeConfigEnvInfo } from './bootstrap/node-config-env-info';
 export { throttleEx, IThrottleExOptions } from './throttle-ex';
+export {
+  millisTo,
+  getInterval,
+  LOCAL_TIMEZONE_OFFSET_MILLIS,
+  START_OF_ERA_ISO,
+  LOCAL_TIMEZONE,
+} from './date-utils';

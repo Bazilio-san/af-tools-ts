@@ -12,13 +12,13 @@ try {
 } catch (err) {
   //
 }
-localTimezone = localTimezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+export const LOCAL_TIMEZONE = localTimezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 
-export const LOCAL_TIMEZONE_OFFSET_MILLIS = DateTime.now().setZone(localTimezone).offset * 60_000;
+export const LOCAL_TIMEZONE_OFFSET_MILLIS = DateTime.now().setZone(LOCAL_TIMEZONE).offset * 60_000;
 
 const utc$ = (millis?: number): DateTime => DateTime.fromMillis(millis == null ? Date.now() : millis).setZone('UTC');
-const loc$ = (millis?: number): DateTime => DateTime.fromMillis(millis == null ? Date.now() : millis).setZone(localTimezone);
+const loc$ = (millis?: number): DateTime => DateTime.fromMillis(millis == null ? Date.now() : millis).setZone(LOCAL_TIMEZONE);
 
 export const millisTo = {
   // 2023-03-18_18-43-15_UTC
