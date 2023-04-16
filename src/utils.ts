@@ -1,6 +1,5 @@
 import * as os from 'os';
 import * as crypto from 'crypto';
-import { flattenObjectPrimitiveLeafs } from "./object-utils";
 
 let instanceKey: string;
 
@@ -194,14 +193,3 @@ export const strEnv = (name: string, def: string) => process.env[name] || def;
 
 export const boolEnv = (name: string, def = false) => getBool(process.env[name], def);
 
-/**
- * Replacing {place_name} substitution places with the values of properties of the same name from obj
- */
-export const fillBracketTemplate = (template: string, obj: any): string => {
-  const flattened = flattenObjectPrimitiveLeafs(obj);
-  template = template.replace(/{([\w]+)}/g, (place: any, placeName: any) => {
-    const val = flattened[String(placeName)];
-    return val === undefined ? place : val;
-  });
-  return template;
-};

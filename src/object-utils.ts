@@ -50,6 +50,15 @@ export const traverse = (
   });
 };
 
+export const isObject = (v: any) => {
+  return v != null
+    && typeof v === 'object'
+    && !Array.isArray(v)
+    && !(v instanceof Date)
+    && !(v instanceof Set)
+    && !(v instanceof Map);
+}
+
 export const flattenObjectPrimitiveLeafs = (obj: any, options: { keysAsPath?: boolean, noOverrideKeys?: boolean } = {}) => {
   const { keysAsPath = true, noOverrideKeys = false } = options;
   const leafs: { [key: string]: string | number | boolean | null } = {};
@@ -95,4 +104,10 @@ export const cloneDeep = <T = any> (
   return Object.assign(result, ...keys.map(
     (key) => ({ [key]: cloneDeep(obj[key], options, hash) }),
   ));
+};
+
+export const makePropertiesNotEnumerable = (obj: object, ...properties: string[]) => {
+  properties.forEach((p) => {
+    Object.defineProperty(obj, p, { enumerable: false });
+  });
 };

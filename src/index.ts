@@ -26,10 +26,13 @@ export {
   traverse,
   flattenObjectPrimitiveLeafs,
   cloneDeep,
+  makePropertiesNotEnumerable,
+  isObject,
 } from './object-utils';
 
 export {
   removeHTML,
+  fillBracketTemplate
 } from './text-utils';
 
 export {
@@ -46,6 +49,5 @@ export {
   sleep,
   memUsage,
   getInstanceKey,
-  fillBracketTemplate,
   rn,
 } from './utils';
