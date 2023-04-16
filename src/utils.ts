@@ -165,8 +165,7 @@ export const floatEnv = (name: string, def: number) => {
   let v = process.env[name];
   if (!v) {
     return def;
-  }
-  v = v.replace(/_/g, '');
+  }v = v.replace(/_/g, '');
   const val = parseFloat(v);
   return val || val === 0 ? val : def;
 };
