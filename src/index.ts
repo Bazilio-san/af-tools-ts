@@ -47,4 +47,5 @@ export {
   memUsage,
   getInstanceKey,
   fillBracketTemplate,
+  rn,
 } from './utils';

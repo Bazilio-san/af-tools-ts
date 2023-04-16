@@ -35,7 +35,7 @@ export const sleep = async (timeOut: number) => new Promise((resolve) => {
   }, timeOut);
 });
 
-const rn = (x: number, digits: number = 2) => {
+export const rn = (x: number, digits: number = 2) => {
   const p = 10 ** digits;
   return Math.round(Number(x) * p) / p;
 };
