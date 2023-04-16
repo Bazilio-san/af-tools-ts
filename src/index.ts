@@ -32,12 +32,13 @@ export {
 
 export {
   removeHTML,
-  fillBracketTemplate
+  fillBracketTemplate,
+  padL,
+  padR,
+  center,
 } from './text-utils';
 
 export {
-  padL,
-  padR,
   getBool,
   boolEnv,
   floatEnv,

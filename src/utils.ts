@@ -11,22 +11,6 @@ export const getInstanceKey = () => {
   return instanceKey;
 };
 
-export const padR = (str: any, strLength: number, padSymbol: string = ' ') => {
-  str = String(str || '');
-  if (str.length < strLength) {
-    str += padSymbol.repeat(Math.min(Math.max(0, strLength - str.length), 10000));
-  }
-  return str;
-};
-
-export const padL = (str: any, strLength: number, padSymbol: string = ' ') => {
-  str = String(str == null ? '' : str);
-  if (str.length < strLength) {
-    str = padSymbol.repeat(Math.min(Math.max(0, strLength - str.length), 10000)) + str;
-  }
-  return str;
-};
-
 export const sleep = async (timeOut: number) => new Promise((resolve) => {
   const timer = setTimeout(() => {
     clearTimeout(timer);

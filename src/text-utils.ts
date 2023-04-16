@@ -13,3 +13,25 @@ export const fillBracketTemplate = (template: string, obj: any): string => {
   return template;
 };
 
+export const center = (title: string, width: number): string => {
+  const spaces = width - title.length;
+  const leftSpaces = Math.floor(spaces / 2);
+  const rightSpaces = spaces - leftSpaces;
+  return ' '.repeat(leftSpaces) + title + ' '.repeat(rightSpaces);
+};
+
+export const padR = (str: any, strLength: number, padSymbol: string = ' ') => {
+  str = String(str || '');
+  if (str.length < strLength) {
+    str += padSymbol.repeat(Math.min(Math.max(0, strLength - str.length), 10000));
+  }
+  return str;
+};
+
+export const padL = (str: any, strLength: number, padSymbol: string = ' ') => {
+  str = String(str == null ? '' : str);
+  if (str.length < strLength) {
+    str = padSymbol.repeat(Math.min(Math.max(0, strLength - str.length), 10000)) + str;
+  }
+  return str;
+};
