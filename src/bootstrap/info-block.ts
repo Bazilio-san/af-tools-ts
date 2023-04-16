@@ -3,7 +3,7 @@ import { rs, green, magenta } from 'af-color';
 export const infoBlock = (
   options: {
     title?: string,
-    info: ([string, string] | string)[] | string,
+    info: ([string, any] | string)[] | string,
     width?: number,
     padding?: number,
     titleColor?: string,
@@ -27,8 +27,8 @@ export const infoBlock = (
 
     text = info.map((v) => {
       if (Array.isArray(v)) {
-          const [label = '', value = ''] = v;
-        return `${labelColor}${pad(`${label}:`)}${valueColor}${value}${rs}`
+          const [label, value] = v;
+        return `${labelColor}${pad(`${label || ''}:`)}${valueColor}${value || ''}${rs}`
       } else {
          if(v) {
            return valueColor + v;
