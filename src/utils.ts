@@ -177,3 +177,4 @@ export const strEnv = (name: string, def: string) => process.env[name] || def;
 
 export const boolEnv = (name: string, def = false) => getBool(process.env[name], def);
 
+export const repeat = <T = any> (what: T, count: number): T[] => [...Array(count).keys()].map(() => what);
