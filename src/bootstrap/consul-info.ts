@@ -16,7 +16,7 @@ export const consulInfo = (cfg: any) => {
     infoBlock({
       echo,
       title: 'FIXED ACCESS POINTS',
-      info: Object.values(aps.get()).map((v: any) => [v.title, `${v.host}${blue}:${lBlue}${v.port}`]),
+      info: fixedAP.map((v: any) => [v.title, `${v.host}${blue}:${lBlue}${v.port}`]),
     });
   }
 };
