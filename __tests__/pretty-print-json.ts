@@ -1,12 +1,10 @@
-import { FormatOptions, prettyPrintJson } from "../src";
+import { FormatOptions, prettyPrintJson } from '../src';
 
 const obj = {
   id: '123456',
   ts: 1668860000553,
   info_json: {
-    person: {
-      personName: 'Пупкин',
-    },
+    person: { personName: 'Пупкин' },
     instrument: {
       id: 9990,
       name: 'instrument name',
@@ -17,12 +15,8 @@ const obj = {
         deviation: 57.97,
         comparisonPrice: 17.377,
       },
-      rule: {
-        threshold: 1,
-      },
-      liquidityInfo: {
-        deals: 2,
-      },
+      rule: { threshold: 1 },
+      liquidityInfo: { deals: 2 },
     },
   },
   payload: { instrumentType: 'opt', comparisonPrice: 9999 },
@@ -30,4 +24,5 @@ const obj = {
 
 const prettyPrintJsonOptions: FormatOptions = { linkUrls: true, indent: 2 };
 const html = prettyPrintJson.toHtml(obj, prettyPrintJsonOptions);
-console.log(html)
+// eslint-disable-next-line no-console
+console.log(html);

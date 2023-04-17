@@ -1,12 +1,12 @@
 // pretty-print-json ~ MIT License
 
 export type FormatSettings = {
-  indent: number,   //number of spaces for indentation
-  lineNumbers: boolean,  //add line numbers
-  linkUrls: boolean,  //create anchor tags for URLs
-  linksNewTab: boolean,  //create target=_blank attribute on anchor tags
-  quoteKeys: boolean,  //always double quote key names
-  trailingComma: boolean,  //add a comma after the last item in arrays and objects
+  indent: number, // number of spaces for indentation
+  lineNumbers: boolean, // add line numbers
+  linkUrls: boolean, // create anchor tags for URLs
+  linksNewTab: boolean, // create target=_blank attribute on anchor tags
+  quoteKeys: boolean, // always double quote key names
+  trailingComma: boolean, // add a comma after the last item in arrays and objects
 };
 export type FormatOptions = Partial<FormatSettings>;
 export type JsonType = 'key' | 'string' | 'number' | 'boolean' | 'null' | 'mark';
@@ -36,9 +36,8 @@ const prettyPrintJson = {
         }
       })
       .replace(/\\"/g, '&bsol;&quot;');
-    const spanTag = (type: JsonType, display?: string): string =>
-      // Creates HTML to display a value like: like "<span class=json-boolean>true</span>"
-      display ? '<span class=json-' + type + '>' + display + '</span>' : '';
+    // Creates HTML to display a value like: like "<span class=json-boolean>true</span>"
+    const spanTag = (type: JsonType, display?: string): string => (display ? `<span class=json-${type}>${display}</span>` : '');
     const buildValueHtml = (value: string): string => {
       // Analyzes a value and returns HTML like: "<span class=json-number>3.1415</span>"
       const strType = /^"/.test(value) && 'string';
@@ -62,7 +61,7 @@ const prettyPrintJson = {
       const lastChar = (match && match[match.length - 1]) || '';
       const noComma = !part.end || [']', '}'].includes(lastChar);
       const addComma = settings.trailingComma && match[0] === ' ' && noComma;
-      const endHtml = spanTag('mark', addComma ? (part.end ?? '') + ',' : part.end);
+      const endHtml = spanTag('mark', addComma ? `${part.end ?? ''},` : part.end);
       return indentHtml + keyHtml + valueHtml + endHtml;
     };
     const jsonLine = /^( *)("[^"]+": )?("[^"]*"|[\w.+-]*)?([{}[\],]*)?$/mg;
@@ -77,8 +76,8 @@ const prettyPrintJson = {
     const json = JSON.stringify(thing, null, settings.indent) || 'undefined';
     const html = htmlEntities(json).replace(jsonLine, replacer);
     const makeLine = (line: string): string => `   <li>${line}</li>`;
-    const addLineNumbers = (html: string): string =>  //wrap html in an <ol> tag
-      ['<ol class=json-lines>', ...html.split('\n').map(makeLine), '</ol>'].join('\n');
+    // wrap html in an <ol> tag
+    const addLineNumbers = (html_: string): string => ['<ol class=json-lines>', ...html_.split('\n').map(makeLine), '</ol>'].join('\n');
     return settings.lineNumbers ? addLineNumbers(html) : html;
   },
 
