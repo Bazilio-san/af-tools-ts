@@ -1,13 +1,15 @@
 {
   "name": "af-tools-ts",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "tools",
   "main": "./dist/cjs/src/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
   "author": "Viacheslav Makarov <vvmakarov@bazilio.ru>",
   "license": "ISC",
-  "keywords": ["tools"],
+  "keywords": [
+    "tools"
+  ],
   "productName": "AF tools (ts)",
   "scripts": {
     "clean": "shx rm -rf dist/*",
@@ -20,7 +22,7 @@
     "cb": "npm run clean && npm run build"
   },
   "dependencies": {
-    "af-color": "^0.0.1",
+    "af-color": "^0.0.5",
     "af-echo-ts": "^1.0.3",
     "config": "^3.3.9",
     "dotenv": "^16.0.3",

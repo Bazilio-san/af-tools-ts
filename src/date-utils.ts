@@ -8,12 +8,11 @@ let localTimezone: string = '';
 try {
   // @ts-ignore
   const config = require('config');
-  localTimezone = config.localTimezone;
+  ({ localTimezone } = config);
 } catch (err) {
   //
 }
 export const LOCAL_TIMEZONE = localTimezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
-
 
 export const LOCAL_TIMEZONE_OFFSET_MILLIS = DateTime.now().setZone(LOCAL_TIMEZONE).offset * 60_000;
 

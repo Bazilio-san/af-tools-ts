@@ -1,4 +1,4 @@
-import { flattenObjectPrimitiveLeafs } from "./object-utils";
+import { flattenObjectPrimitiveLeafs } from './object-utils';
 
 export const removeHTML = (s: string) => String(s).replace(/<\/?[^>]+>/ig, '');
 /**

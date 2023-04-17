@@ -925,6 +925,11 @@ af-color@^0.0.1:
   resolved "https://registry.yarnpkg.com/af-color/-/af-color-0.0.1.tgz#672020dc3b09ca2f8d632ceb06893c328702a98f"
   integrity sha512-qrN265OCFUBf1s+MFQfqh4DQOB15vO+amQfhebKBuIHwHXukc+FxxzMksJw9bwI9MtOTbZUNvcKK/Glyrz66rw==
 
+af-color@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/af-color/-/af-color-0.0.5.tgz#cc756742ca70f10fa87be00507ad3a03067a3a91"
+  integrity sha512-s+I+5A0aqLLKdOXeVlMeeO0umZz0rqdwnNOVbTXG/sUTsWMAMVw7s1kycVtTmHUhirAV3bqOiqCo5tLtMGYeBg==
+
 af-consul@^3.0.18:
   version "3.0.18"
   resolved "https://registry.yarnpkg.com/af-consul/-/af-consul-3.0.18.tgz#3b50fbb2735ad8bb5d81e7a1291a7c715b511dee"

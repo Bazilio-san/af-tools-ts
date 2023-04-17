@@ -8,6 +8,35 @@ module.exports = {
   logger: {
     level: 'fatal',
   },
+  database: {
+    dialect: 'mssql',
+    _common_: {
+      options: { enableArithAbort: false },
+      pool: {
+        max: 100,
+        min: 1,
+      },
+    },
+    dbTest1: {
+      server: 'test.db-server.com',
+      port: 1433,
+      database: 'dataBaseTest1',
+      user: 'testUser1',
+    },
+    anyDb2: {
+      server: '100.100.100.100',
+      port: 1433,
+      database: 'bbase',
+      user: 'Pupkin',
+    },
+    universe: {
+      server: 'number1.universe',
+      port: 1433,
+      database: 'superGlobalTestDB',
+      user: 'sidorov',
+    },
+  },
+
   webServer: {
     host: '0.0.0.0',
     port: 8994,

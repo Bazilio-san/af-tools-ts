@@ -27,13 +27,13 @@ export const infoBlock = (
 
     text = info.map((v) => {
       if (Array.isArray(v)) {
-          const [label, value] = v;
-        return `${labelColor}${pad(`${label || ''}:`)}${valueColor}${value || ''}${rs}`
-      } else {
-         if(v) {
-           return valueColor + v;
-         }
+        const [label, value] = v;
+        return `${labelColor}${pad(`${label || ''}:`)}${valueColor}${value || ''}${rs}`;
       }
+      if (v) {
+        return valueColor + v;
+      }
+      return undefined;
     }).filter(Boolean).join('\n');
   } else {
     text = valueColor + info;

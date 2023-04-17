@@ -50,14 +50,12 @@ export const traverse = (
   });
 };
 
-export const isObject = (v: any) => {
-  return v != null
+export const isObject = (v: any) => v != null
     && typeof v === 'object'
     && !Array.isArray(v)
     && !(v instanceof Date)
     && !(v instanceof Set)
     && !(v instanceof Map);
-}
 
 export type TFlattenObjectKeysType = 'path' | 'name' | 'mixed'
 export const flattenObjectPrimitiveLeafs = (obj: any, options: { keysType?: TFlattenObjectKeysType, noOverrideKeys?: boolean } = {}) => {
@@ -85,7 +83,6 @@ export const flattenObjectPrimitiveLeafs = (obj: any, options: { keysType?: TFla
   });
   return leafs;
 };
-
 
 export const cloneDeep = <T = any> (
   obj: any,

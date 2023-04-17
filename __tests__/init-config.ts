@@ -5,8 +5,6 @@ import { IAccessPoints } from 'af-consul/dist/types/interfaces';
 
 export const config: any = configModule.util.toObject();
 
-const { instance } = config.consul.service;
-
 const accessPoints = { ...config.accessPoints };
 config.accessPoints = new AccessPoints(config.accessPoints as IAccessPoints);
 Object.entries(accessPoints).forEach(([accessPointKey, value]) => {
