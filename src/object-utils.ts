@@ -59,15 +59,28 @@ export const isObject = (v: any) => {
     && !(v instanceof Map);
 }
 
-export const flattenObjectPrimitiveLeafs = (obj: any, options: { keysAsPath?: boolean, noOverrideKeys?: boolean } = {}) => {
-  const { keysAsPath = true, noOverrideKeys = false } = options;
+export type TFlattenObjectKeysType = 'path' | 'name' | 'mixed'
+export const flattenObjectPrimitiveLeafs = (obj: any, options: { keysType?: TFlattenObjectKeysType, noOverrideKeys?: boolean } = {}) => {
+  const { keysType = 'mixed', noOverrideKeys = false } = options;
   const leafs: { [key: string]: string | number | boolean | null } = {};
   traverse(obj, (data) => {
     if (data.isLeaf && data.isPrimitive) {
-      const key = keysAsPath ? data.path.join('.') : data.key;
-      if (key && (!noOverrideKeys || leafs[key] === undefined)) {
-        leafs[key] = data.val;
+      let keys: string[];
+      if (keysType === 'path') {
+        keys = [data.path.join('.')];
+      } else if (keysType === 'name') {
+        keys = [data.key || ''];
+      } else {
+        keys = [data.path.join('.'), data.key || ''];
       }
+      keys = keys.filter(Boolean);
+      keys.forEach((key) => {
+        if (!noOverrideKeys || leafs[key] === undefined) {
+          if (data.val !== undefined) {
+            leafs[key] = data.val;
+          }
+        }
+      });
     }
   });
   return leafs;
