@@ -51,7 +51,11 @@ const validateArgs = (func: any, intervalLength: any, options: any) => {
 };
 
 type TNumberFn = (n: number) => number;
-export type TIntervalPromiseOptions = { iterations?: number, stopOnError?: boolean };
+export type TIntervalPromiseOptions = {
+  iterations?: number,
+  stopOnError?: boolean,
+  startImmediately?: boolean,
+};
 export type TStopIntervalPromiseFunc = () => void;
 /**
  * func - function to execute
@@ -91,8 +95,10 @@ export const intervalPromise = (
       callFunction(currentIteration + 1);
     };
 
-    // Calculate our interval length
-    const calculatedIntervalLength = (typeof intervalLength === 'function') ? intervalLength(currentIteration) : intervalLength;
+    let calculatedIntervalLength = (typeof intervalLength === 'function') ? intervalLength(currentIteration) : intervalLength;
+    if (settings.startImmediately && currentIteration === 1) {
+      calculatedIntervalLength = 1; // ms
+    }
 
     // If the interval length was calculated, validate the result
     if (typeof intervalLength === 'function') {

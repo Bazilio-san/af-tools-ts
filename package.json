@@ -1,6 +1,6 @@
 {
   "name": "af-tools-ts",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "description": "tools",
   "main": "./dist/cjs/src/index.js",
   "module": "./dist/esm/index.js",
