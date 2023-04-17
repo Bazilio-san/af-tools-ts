@@ -37,6 +37,7 @@ export {
   padL,
   padR,
   center,
+  removeAnsiColors,
 } from './text-utils';
 
 export {
