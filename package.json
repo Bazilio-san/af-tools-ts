@@ -1,15 +1,13 @@
 {
   "name": "af-tools-ts",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "description": "tools",
   "main": "./dist/cjs/src/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
   "author": "Viacheslav Makarov <vvmakarov@bazilio.ru>",
   "license": "ISC",
-  "keywords": [
-    "tools"
-  ],
+  "keywords": ["tools"],
   "productName": "AF tools (ts)",
   "scripts": {
     "clean": "shx rm -rf dist/*",
