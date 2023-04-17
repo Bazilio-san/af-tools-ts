@@ -27,7 +27,7 @@ const validateArgs = (func: any, intervalLength: any, options: any) => {
   }
 
   // Validate passed keys
-  const allowedKeys = ['iterations', 'stopOnError'];
+  const allowedKeys = ['iterations', 'stopOnError', 'startImmediately'];
 
   Object.keys(options).forEach((key) => {
     if (!allowedKeys.includes(key)) {
