@@ -54,3 +54,10 @@ export {
   rn,
   repeat,
 } from './utils';
+
+export {
+  prettyPrintJson,
+  FormatOptions,
+  JsonType,
+  FormatSettings,
+} from './pretty-print-json';

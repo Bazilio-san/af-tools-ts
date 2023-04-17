@@ -36,7 +36,6 @@ export const millisTo = {
       date: (millis?: number): string => utc$(millis).toFormat('yyyy-MM-dd'),
       time: (millis?: number): string => utc$(millis).toFormat('HH:mm:ss'),
       timeMs: (millis?: number): string => utc$(millis).toFormat('HH:mm:ss.SSS'),
-      // 2022-05-15 16:56 UTC
     },
     // 2022-05-15 19:56:42
     loc: {
