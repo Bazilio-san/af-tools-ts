@@ -1,20 +1,28 @@
 /*
 Вывод стартовой диагностики в консоль
 */
-import * as config from 'config';
 import { echo } from 'af-echo-ts';
 import { lBlue, cyan, yellow } from 'af-color';
+import { IConfigSource } from 'config';
 import { Debug } from '../debug';
 import { infoBlock } from './info-block';
 
 const YAML = require('json-to-pretty-yaml');
 
+let config: any;
+try {
+  // @ts-ignore
+  config = require('config');
+} catch (err) {
+  //
+}
+
 export const configInfo = (arg: { cfg: any, debugId?: string, dotEnvResult?: any }) => {
   const { cfg, debugId, dotEnvResult } = arg;
-  if (!Debug(debugId || 'config-info').enabled) {
+  if (!Debug(debugId || 'config-info').enabled || !config) {
     return;
   }
-  const configSrc = config.util.getConfigSources();
+  const configSrc: IConfigSource[] = config.util.getConfigSources();
   const customEnvSrc = configSrc.find((o) => o.name.includes('custom-environment-variables'))?.original || '';
   const envsUsed: any = {};
   [...customEnvSrc.matchAll(/^ *[^\s:]+: ([A-Z_\d]+)/img)].map((arr) => arr[1]).forEach((name) => {
