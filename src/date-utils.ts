@@ -58,11 +58,13 @@ export const millisTo = {
     loc: (millis: number): string | null => loc$(millis).toISO({ includeOffset: false }),
   },
   db: {
+    // '2022-05-15T16:56:42.349Z'
+    isoZ: (millis?: number): string | null => `'${utc$(millis).toISO({ includeOffset: true })}'`,
     // '2022-05-15T19:56:42.349' (время локальное)
     locT: (millis?: number): string | null => `'${loc$(millis).toISO({ includeOffset: false })}'`,
     // '2022-05-15' (время локальное)
     locDate: (millis?: number) => `'${loc$(millis).toFormat('yyyy-MM-dd')}'`,
-    // '2022-05-15T19:56:42.349'::timestamptz (UTC)
+    // '2022-05-15T16:56:42.349'::timestamptz (UTC)
     pgUtc: (millis?: number): string | null => `'${utc$(millis).toISO()}'::timestamptz`,
   },
   letterTime: (ts_: number | undefined | null): string => (ts_ ? `${millisTo.human.loc._(ts_)} MSK / ${millisTo.human.utc.z(ts_)}` : '-'),
