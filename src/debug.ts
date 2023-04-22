@@ -17,6 +17,7 @@ export function DebugExact (debugPattern: string) {
       echo(`${DateTime.now().setZone('UTC').toFormat('HH:mm:ss')} ${c}${msg}`);
     }
   }
+
   debug.enabled = getDbgRe(debugPattern).test(DEBUG);
   return debug;
 }
@@ -27,6 +28,7 @@ export function Debug (debugPattern: string) {
       echo(`${DateTime.now().setZone('UTC').toFormat('HH:mm:ss')} ${c}${msg}`);
     }
   }
+
   debug.enabled = IS_TOTAL_DEBUG || (getDbgRe(debugPattern)).test(DEBUG);
   return debug;
 }
@@ -40,6 +42,7 @@ export const getProjectDebug = (projectDebugPattern: string) => {
         echo(`${DateTime.now().setZone('UTC').toFormat('HH:mm:ss')} ${c}${msg}`);
       }
     }
+
     debug.enabled = isTotalProjectDebug || (getDbgRe(debugPattern)).test(DEBUG);
     return debug;
   };
