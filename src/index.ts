@@ -19,6 +19,9 @@ export {
   LOCAL_TIMEZONE_OFFSET_MILLIS,
   START_OF_ERA_ISO,
   LOCAL_TIMEZONE,
+  timeParamRE,
+  getTimeParamFromMillis,
+  getTimeParamMillis,
 } from './date-utils';
 
 export { intervalPromise, TIntervalPromiseOptions, TStopIntervalPromiseFunc } from './interval-promise';
@@ -47,9 +50,6 @@ export {
   floatEnv,
   intEnv,
   strEnv,
-  timeParamRE,
-  getTimeParamFromMillis,
-  getTimeParamMillis,
   sleep,
   memUsage,
   getInstanceKey,
