@@ -4,6 +4,7 @@ export {
   getProjectDebug,
   Debug,
   dbg,
+  DebugExact,
 } from './debug';
 
 export { configInfo } from './bootstrap/config-info';

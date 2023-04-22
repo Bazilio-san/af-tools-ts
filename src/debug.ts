@@ -11,6 +11,16 @@ export const dbg = (str: string) => {
 
 const getDbgRe = (debugPattern: string) => new RegExp(`\\b${debugPattern}\\b`, 'i');
 
+export function DebugExact (debugPattern: string) {
+  function debug (msg: string) {
+    if (debug.enabled) {
+      echo(`${DateTime.now().setZone('UTC').toFormat('HH:mm:ss')} ${c}${msg}`);
+    }
+  }
+  debug.enabled = getDbgRe(debugPattern).test(DEBUG);
+  return debug;
+}
+
 export function Debug (debugPattern: string) {
   function debug (msg: string) {
     if (debug.enabled) {
