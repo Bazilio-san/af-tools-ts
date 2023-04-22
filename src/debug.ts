@@ -28,7 +28,6 @@ export function Debug (debugPattern: string) {
       echo(`${DateTime.now().setZone('UTC').toFormat('HH:mm:ss')} ${c}${msg}`);
     }
   }
-
   debug.enabled = IS_TOTAL_DEBUG || (getDbgRe(debugPattern)).test(DEBUG);
   return debug;
 }
