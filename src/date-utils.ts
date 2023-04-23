@@ -145,6 +145,8 @@ export const getTimeParamMillis = (val: string | number): number => {
   return sec * 1000;
 };
 
+export type TTimeUnit = 'd' | 'h' | 'm' | 's' | 'ms';
+
 export const getTimeParamFromMillis = (millis: number, roundTo: 'd' | 'h' | 'm' | 's' | 'biggest' | '' = ''): string => {
   let seconds = millis < 1000 ? 0 : Math.floor(millis / 1000);
   if (roundTo === 's') {
