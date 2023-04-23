@@ -61,7 +61,7 @@ update_version(){
 update_version
 exit_on_error
 
-git add package.json
+git add --all
 exit_on_error
 
 git commit --no-verify -m "$new_version"
