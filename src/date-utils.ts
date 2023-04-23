@@ -197,3 +197,14 @@ export const getTimeParamFromMillis = (millis: number, roundTo: 'd' | 'h' | 'm' 
   }
   return `${days} d`;
 };
+
+export const isoToMillis = (str: string, zone: string = 'UTC') => {
+  if (!str) {
+    return null;
+  }
+  const dt = DateTime.fromISO(str);
+  if (!dt.isValid) {
+    return null;
+  }
+  return dt.setZone(zone).toMillis();
+};

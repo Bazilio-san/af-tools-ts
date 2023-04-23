@@ -23,6 +23,7 @@ export {
   getTimeParamFromMillis,
   getTimeParamMillis,
   TTimeUnit,
+  isoToMillis,
 } from './date-utils';
 
 export { intervalPromise, TIntervalPromiseOptions, TStopIntervalPromiseFunc } from './interval-promise';
