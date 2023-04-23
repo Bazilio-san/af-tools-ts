@@ -36,7 +36,6 @@ fi
 npm run cb
 exit_on_error "$y**** Typescript build failed ****$c0"
 
-
 old_version=''
 new_version=''
 
