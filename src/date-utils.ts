@@ -202,9 +202,9 @@ export const isoToMillis = (str: string, zone: string = 'UTC') => {
   if (!str) {
     return null;
   }
-  const dt = DateTime.fromISO(str);
+  const dt = DateTime.fromISO(str, { zone });
   if (!dt.isValid) {
     return null;
   }
-  return dt.setZone(zone).toMillis();
+  return dt.toMillis();
 };
