@@ -23,6 +23,8 @@ export const rn = (x: number, digits: number = 2) => {
   return Math.round(Number(x) * p) / p;
 };
 
+export const rnpc = (x: number, digits: number = 2) => rn(x * 100, digits);
+
 const mb = (bytes: number): string => `${rn(bytes / 1024 / 1024)} mb`;
 
 export const memUsage = (): string => {
@@ -56,7 +58,8 @@ export const floatEnv = (name: string, def: number) => {
   let v = process.env[name];
   if (!v) {
     return def;
-  }v = v.replace(/_/g, '');
+  }
+  v = v.replace(/_/g, '');
   const val = parseFloat(v);
   return val || val === 0 ? val : def;
 };
