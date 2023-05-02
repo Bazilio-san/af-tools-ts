@@ -56,6 +56,7 @@ export {
   memUsage,
   getInstanceKey,
   rn,
+  rnpc,
   repeat,
 } from './utils';
 
