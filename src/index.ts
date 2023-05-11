@@ -32,9 +32,21 @@ export {
   ITraverseNode,
   traverse,
   flattenObjectPrimitiveLeafs,
+  TFlattenObjectKeysType,
   cloneDeep,
   makePropertiesNotEnumerable,
   isObject,
+  isNonEmptyObject,
+  extend,
+  mergeDeep,
+  mergeByPath,
+  freezeDeep,
+  each,
+  map,
+  pickBy,
+  compare,
+  isEqual,
+  get,
 } from './object-utils';
 
 export {
@@ -58,6 +70,7 @@ export {
   rn,
   rnpc,
   repeat,
+  throttle,
 } from './utils';
 
 export {

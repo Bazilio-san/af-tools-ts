@@ -71,3 +71,24 @@ export const strEnv = (name: string, def: string) => process.env[name] || def;
 export const boolEnv = (name: string, def = false) => getBool(process.env[name], def);
 
 export const repeat = <T = any> (what: T, count: number): T[] => [...Array(count).keys()].map(() => what);
+
+export const throttle = (func: Function, limit: number): Function => {
+  let timer: any;
+  let lastRan: number = 0;
+  return function t (...args: any[]) {
+    // @ts-ignore
+    const context = this;
+    if (!lastRan) {
+      func.apply(context, args);
+      lastRan = Date.now();
+    } else {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        if ((Date.now() - lastRan) >= limit) {
+          func.apply(context, args);
+          lastRan = Date.now();
+        }
+      }, limit - (Date.now() - lastRan));
+    }
+  };
+};

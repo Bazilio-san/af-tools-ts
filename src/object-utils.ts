@@ -51,11 +51,11 @@ export const traverse = (
 };
 
 export const isObject = (v: any) => v != null
-    && typeof v === 'object'
-    && !Array.isArray(v)
-    && !(v instanceof Date)
-    && !(v instanceof Set)
-    && !(v instanceof Map);
+  && typeof v === 'object'
+  && !Array.isArray(v)
+  && !(v instanceof Date)
+  && !(v instanceof Set)
+  && !(v instanceof Map);
 
 export type TFlattenObjectKeysType = 'path' | 'name' | 'mixed'
 export const flattenObjectPrimitiveLeafs = (obj: any, options: { keysType?: TFlattenObjectKeysType, noOverrideKeys?: boolean } = {}) => {
@@ -120,4 +120,183 @@ export const makePropertiesNotEnumerable = (obj: object, ...properties: string[]
   properties.forEach((p) => {
     Object.defineProperty(obj, p, { enumerable: false });
   });
+};
+
+// ====================================
+export const isNonEmptyObject = (value: any): boolean => {
+  if (!isObject(value)) {
+    return false;
+  }
+  return !!Object.keys(value).length;
+};
+
+export const extend = (obj: any, ...args: any[]): any => {
+  args.forEach((obj2) => {
+    Object.entries(obj2).forEach(([key, value]) => {
+      obj[key] = value;
+    });
+  });
+  return obj;
+};
+
+export const mergeDeep = (target: any, ...sources: any[]): any => {
+  if (!sources.length) return target;
+  const source = sources.shift();
+
+  if (isObject(target) && isObject(source)) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key in source) {
+      if (isObject(source[key])) {
+        if (!target[key]) Object.assign(target, { [key]: {} });
+        mergeDeep(target[key], source[key]);
+      } else {
+        Object.assign(target, { [key]: source[key] });
+      }
+    }
+  }
+  return mergeDeep(target, ...sources);
+};
+
+export const mergeByPath = (json: any, path: string, value: any): any => {
+  const p: string[] = path.split('.');
+  let obj = json;
+  p.forEach((segment, i) => {
+    if (typeof obj[segment] !== 'object') {
+      obj[segment] = {};
+    }
+    if (p.length - 1 === i) {
+      obj[segment] = value;
+    } else {
+      obj = obj[segment];
+    }
+  });
+  return json;
+};
+
+export const freezeDeep = (obj: any) => {
+  const propNames = Object.getOwnPropertyNames(obj);
+  propNames.forEach((name) => {
+    const prop = obj[name];
+    if (typeof prop === 'object' && prop !== null) freezeDeep(prop);
+  });
+  return Object.freeze(obj);
+};
+
+export const each = (obj: any, iteratee: Function) => {
+  Object.entries(obj).forEach(([key, value]) => {
+    iteratee(value, key, obj);
+  });
+};
+
+export const map = (obj: any, iteratee: Function): any => Object.entries(obj).map(([key, value]) => iteratee(value, key, obj));
+
+export const pickBy = (obj: any, iteratee: Function): any => {
+  const ret: any = {};
+  Object.entries(obj).forEach(([key, value]) => {
+    if (iteratee(value, key, obj)) {
+      ret[key] = value;
+    }
+  });
+  return ret;
+};
+
+/**
+ * Compare two items
+ * @param item1
+ * @param item2
+ * @return {boolean}
+ */
+export const compare = (item1: any, item2: any): boolean => {
+  // Get the object type
+  const itemType = Object.prototype.toString.call(item1);
+  // If an object or array, compare recursively
+  if (['[object Array]', '[object Object]'].indexOf(itemType) >= 0) {
+    // eslint-disable-next-line no-use-before-define
+    if (!isEqual(item1, item2)) {
+      return false;
+    }
+  } else { // Otherwise, do a simple comparison
+    // If the two items are not the same type, return false
+    if (itemType !== Object.prototype.toString.call(item2)) {
+      return false;
+    }
+    // Else if it's a function, convert to a string and compare
+    // Otherwise, just compare
+    if (itemType === '[object Function]') {
+      if (item1.toString() !== item2.toString()) {
+        return false;
+      }
+    } else if (item1 !== item2) {
+      return false;
+    }
+  }
+  return true;
+};
+
+export const isEqual = (value: any, other: any): boolean => {
+  // Get the value type
+  if (value === other) {
+    return true;
+  }
+  const type = Object.prototype.toString.call(value);
+  // If the two objects are not the same type, return false
+  if (type !== Object.prototype.toString.call(other)) {
+    return false;
+  }
+  // If items are not an object or array, return false
+  if (['[object Array]', '[object Object]'].indexOf(type) < 0) {
+    return false;
+  }
+  // Compare the length of the length of the two items
+  const valueLen = type === '[object Array]' ? value.length : Object.keys(value).length;
+  const otherLen = type === '[object Array]' ? other.length : Object.keys(other).length;
+  if (valueLen !== otherLen) {
+    return false;
+  }
+
+  // Compare properties
+  if (type === '[object Array]') {
+    for (let i = 0; i < valueLen; i++) {
+      // noinspection PointlessBooleanExpressionJS
+      if (compare(value[i], other[i]) === false) {
+        return false;
+      }
+    }
+  } else {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key in value) {
+      // eslint-disable-next-line no-prototype-builtins
+      if (value.hasOwnProperty(key)) {
+        // noinspection PointlessBooleanExpressionJS
+        if (compare(value[key], other[key]) === false) {
+          return false;
+        }
+      }
+    }
+  }
+  // If nothing failed, return true
+  return true;
+};
+
+export const baseGet = (object: any, path: string | string[]): any | undefined => {
+  const p: string[] = Array.isArray(path) ? path : String(path).split('.');
+  let index = 0;
+  const { length } = p;
+  while (object != null && index < length) {
+    object = object[`${p[index++]}`];
+  }
+  return (index && index === length) ? object : undefined;
+};
+
+export const get = (object: any, path: string | string[], defaultValue: any): any | undefined => {
+  if (typeof path === 'string') {
+    path = path.trim();
+    if (!path) {
+      return object;
+    }
+  } else if (Array.isArray(path) && !path.length) {
+    return object;
+  }
+  const result = object == null ? undefined : baseGet(object, path);
+  return result === undefined ? defaultValue : result;
 };
