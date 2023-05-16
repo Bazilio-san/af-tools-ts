@@ -1,11 +1,10 @@
-import { magenta, rs, green, bg } from 'af-color';
+import { magenta, rs, bg, black } from 'af-color';
 
-export const nodeConfigEnvInfo = (arg?: {lineLen?: number, padding?: number}) => {
+export const nodeConfigEnvInfo = (arg?: { lineLen?: number, padding?: number }) => {
   const { lineLen = 64, padding = 24 } = arg || {};
   const label = 'NODE_CONFIG_ENV:';
   const v = process.env.NODE_CONFIG_ENV;
   return v
-    ? `${bg.cyan}${green}${label}${' '.repeat(padding - label.length)}${
-      magenta}${v}${' '.repeat(lineLen - padding - v.length)}${rs}`
+    ? `${bg.cyan}${black}${label}${magenta}${' '.repeat(padding - label.length)}${v}${' '.repeat(lineLen - padding - v.length)}${rs}`
     : '';
 };
