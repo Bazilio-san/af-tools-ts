@@ -4,7 +4,9 @@ import { infoBlock } from './info-block';
 
 export const consulInfo = (cfg: any) => {
   const aps = cfg.accessPoints;
-
+  if (!aps?.get) {
+    return;
+  }
   infoBlock({
     echo,
     title: 'CONSUL ACCESS POINTS',
