@@ -65,7 +65,9 @@ export const millisTo = {
     // '2022-05-15' (время локальное)
     locDate: (millis?: number) => `'${loc$(millis).toFormat('yyyy-MM-dd')}'`,
     // '2022-05-15T16:56:42.349'::timestamptz (UTC)
-    pgUtc: (millis?: number): string | null => `'${utc$(millis).toISO()}'::timestamptz`,
+    pgUtc: (millis?: number): string => `'${utc$(millis).toISO()}'::timestamptz`,
+    // '2022-05-15T16:56 UTC'::timestamptz
+    pgUtcMm: (millis?: number): string => `'${utc$(millis).toFormat('yyyy-MM-dd HH:mm z')}'::timestamptz`,
   },
   letterTime: (ts_: number | undefined | null): string => (ts_ ? `${millisTo.human.loc._(ts_)} MSK / ${millisTo.human.utc.z(ts_)}` : '-'),
 };
