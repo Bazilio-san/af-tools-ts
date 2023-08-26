@@ -1,6 +1,6 @@
 {
   "name": "af-tools-ts",
-  "version": "1.0.50",
+  "version": "1.0.51",
   "description": "tools",
   "main": "./dist/cjs/src/index.js",
   "module": "./dist/esm/index.js",
@@ -20,6 +20,7 @@
     "cb": "npm run clean && npm run build"
   },
   "dependencies": {
+    "@types/luxon": "^3.3.0",
     "af-color": "^0.0.5",
     "af-echo-ts": "^1.0.3",
     "config": "^3.3.9",
@@ -33,7 +34,6 @@
     "@types/config": "^3.3.0",
     "@types/consul": "^0.40.0",
     "@types/jest": "^29.5.0",
-    "@types/luxon": "^3.3.0",
     "@types/node": "^18.15.11",
     "@types/supertest": "^2.0.12",
     "af-consul": "^3.0.18",
