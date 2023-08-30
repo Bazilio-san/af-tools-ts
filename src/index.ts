@@ -66,7 +66,6 @@ export {
   strEnv,
   sleep,
   memUsage,
-  getInstanceKey,
   rn,
   rnpc,
   repeat,
@@ -79,3 +78,10 @@ export {
   JsonType,
   FormatSettings,
 } from './pretty-print-json';
+
+export {
+  getInstanceKey,
+  hash,
+  simpleRandomHash,
+  simpleRandomUid,
+} from './crypto-hash-random';

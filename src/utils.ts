@@ -1,16 +1,3 @@
-import * as os from 'os';
-import * as crypto from 'crypto';
-
-let instanceKey: string;
-
-export const getInstanceKey = () => {
-  if (!instanceKey) {
-    const data = `${os.hostname()}${__dirname}${process.env.NODE_CONFIG_ENV || process.env.NODE_ENV}`;
-    instanceKey = crypto.createHash('md5').update(data).digest('hex');
-  }
-  return instanceKey;
-};
-
 export const sleep = async (timeOut: number) => new Promise((resolve) => {
   const timer = setTimeout(() => {
     clearTimeout(timer);

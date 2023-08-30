@@ -1,6 +1,6 @@
 {
   "name": "af-tools-ts",
-  "version": "1.0.52",
+  "version": "1.0.53",
   "description": "tools",
   "main": "./dist/cjs/src/index.js",
   "module": "./dist/esm/index.js",
@@ -16,6 +16,7 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "test-config-info": "node ./dist/cjs/__tests__/config-info.js",
     "test-date-utils": "node ./dist/cjs/__tests__/date-utils.js",
+    "test-crypto-hash-random": "node ./dist/cjs/__tests__/crypto-hash-random.js",
     "pub": "npm run lint:fix && npm run clean && npm run build && npm publish",
     "cb": "npm run clean && npm run build"
   },
