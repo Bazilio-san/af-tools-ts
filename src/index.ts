@@ -56,6 +56,7 @@ export {
   padR,
   center,
   removeAnsiColors,
+  clearESC,
 } from './text-utils';
 
 export {

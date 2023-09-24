@@ -38,3 +38,6 @@ export const padL = (str: any, strLength: number, padSymbol: string = ' ') => {
 
 // eslint-disable-next-line no-control-regex
 export const removeAnsiColors = (str: string) => str.replace(/\x1b\[(\d+;)?\d+m/g, '');
+
+// eslint-disable-next-line no-control-regex
+export const clearESC = (str: string) => str.replace(/\x1b\[[\d;]+m/ig, '');
