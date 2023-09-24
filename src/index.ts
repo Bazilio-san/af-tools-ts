@@ -74,6 +74,13 @@ export {
 } from './utils';
 
 export {
+  normalizePath,
+  getFiles,
+  getFilesR,
+  IFileInfo,
+} from './fs';
+
+export {
   prettyPrintJson,
   FormatOptions,
   JsonType,
