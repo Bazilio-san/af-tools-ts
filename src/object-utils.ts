@@ -300,3 +300,28 @@ export const get = (object: any, path: string | string[], defaultValue: any): an
   const result = object == null ? undefined : baseGet(object, path);
   return result === undefined ? defaultValue : result;
 };
+
+export const isObjectCircular = (obj: any): boolean => {
+  try {
+    JSON.stringify(obj);
+  } catch (err: Error | any) {
+    return (err.toString() === 'TypeError: Converting circular structure to JSON');
+  }
+  return false;
+};
+
+const getCircularReplacer = () => {
+  const seen = new WeakSet();
+  return (key: string, value: any): any => {
+    if (typeof value === 'object' && value !== null) {
+      if (seen.has(value)) {
+        return;
+      }
+      seen.add(value);
+    }
+    return value;
+  };
+};
+
+export const stringifySafe = (obj: any): any => JSON.stringify(obj, getCircularReplacer());
+export const sanitize = (obj: any): any => JSON.parse(JSON.stringify(obj, getCircularReplacer()));

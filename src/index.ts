@@ -47,6 +47,9 @@ export {
   compare,
   isEqual,
   get,
+  isObjectCircular,
+  stringifySafe,
+  sanitize,
 } from './object-utils';
 
 export {
