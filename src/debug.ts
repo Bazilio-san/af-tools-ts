@@ -22,12 +22,17 @@ export function DebugExact (debugPattern: string) {
   return debug;
 }
 
-export function Debug (debugPattern: string) {
+export function Debug (debugPattern: string, noTime?: boolean) {
   function debug (msg: string) {
     if (debug.enabled) {
-      echo(`${DateTime.now().setZone('UTC').toFormat('HH:mm:ss')} ${c}${msg}`);
+      if (noTime) {
+        echo(c + msg);
+      } else {
+        echo(`${DateTime.now().setZone('UTC').toFormat('HH:mm:ss')} ${c}${msg}`);
+      }
     }
   }
+
   debug.enabled = IS_TOTAL_DEBUG || (getDbgRe(debugPattern)).test(DEBUG);
   return debug;
 }
@@ -35,10 +40,14 @@ export function Debug (debugPattern: string) {
 export const getProjectDebug = (projectDebugPattern: string) => {
   const isTotalProjectDebug = IS_TOTAL_DEBUG || (getDbgRe(projectDebugPattern)).test(DEBUG);
 
-  return function PDebug (debugPattern: string) {
+  return function PDebug (debugPattern: string, noTime?: boolean) {
     function debug (msg: string) {
       if (debug.enabled) {
-        echo(`${DateTime.now().setZone('UTC').toFormat('HH:mm:ss')} ${c}${msg}`);
+        if (noTime) {
+          echo(c + msg);
+        } else {
+          echo(`${DateTime.now().setZone('UTC').toFormat('HH:mm:ss')} ${c}${msg}`);
+        }
       }
     }
 
