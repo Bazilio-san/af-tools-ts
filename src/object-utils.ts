@@ -229,6 +229,9 @@ export const pickBy = <T extends object>(obj: any, iteratee: Function): Partial<
   return ret;
 };
 
+export const every = <T extends object>(obj: T, iteratee: (value: any, key: string | number, obj: T) => boolean)
+  : boolean => Object.entries(obj).every(([key, value]: [string, T]) => iteratee(value, key, obj));
+
 /**
  * Compare two items
  * @param item1
