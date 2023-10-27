@@ -201,6 +201,16 @@ export const omit = (obj: any, paths: string[]): any => {
   return copy;
 };
 
+export const omitBy = <T extends object>(obj: any, iteratee: Function): Partial<T> => {
+  const copy = cloneDeep(obj);
+  Object.entries(obj).forEach(([key, value]) => {
+    if (iteratee(value, key, obj)) {
+      delete copy[key];
+    }
+  });
+  return copy;
+};
+
 export const pick = <T extends object>(obj: any, paths: string[]): Partial<T> => {
   const copy: any = {};
   paths.forEach((key) => {
