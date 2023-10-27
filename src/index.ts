@@ -52,6 +52,8 @@ export {
   sanitize,
   omit,
   pick,
+  every,
+  omitBy,
 } from './object-utils';
 
 export {
