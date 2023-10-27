@@ -50,6 +50,8 @@ export {
   isObjectCircular,
   stringifySafe,
   sanitize,
+  omit,
+  pick,
 } from './object-utils';
 
 export {

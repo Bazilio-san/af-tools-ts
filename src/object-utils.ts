@@ -58,7 +58,10 @@ export const isObject = (v: any) => v != null
   && !(v instanceof Map);
 
 export type TFlattenObjectKeysType = 'path' | 'name' | 'mixed'
-export const flattenObjectPrimitiveLeafs = (obj: any, options: { keysType?: TFlattenObjectKeysType, noOverrideKeys?: boolean } = {}) => {
+export const flattenObjectPrimitiveLeafs = (obj: any, options: {
+  keysType?: TFlattenObjectKeysType,
+  noOverrideKeys?: boolean
+} = {}) => {
   const { keysType = 'mixed', noOverrideKeys = false } = options;
   const leafs: { [key: string]: string | number | boolean | null } = {};
   traverse(obj, (data) => {
@@ -84,7 +87,7 @@ export const flattenObjectPrimitiveLeafs = (obj: any, options: { keysType?: TFla
   return leafs;
 };
 
-export const cloneDeep = <T = any> (
+export const cloneDeep = <T = any>(
   obj: any,
   options: { pureObj?: boolean, skipSymbols?: boolean } = {},
   hash = new WeakMap(),
@@ -190,7 +193,23 @@ export const each = (obj: any, iteratee: Function) => {
 
 export const map = (obj: any, iteratee: Function): any => Object.entries(obj).map(([key, value]) => iteratee(value, key, obj));
 
-export const pickBy = (obj: any, iteratee: Function): any => {
+export const omit = (obj: any, paths: string[]): any => {
+  const copy = cloneDeep(obj);
+  paths.forEach((key) => {
+    delete copy[key];
+  });
+  return copy;
+};
+
+export const pick = <T extends object>(obj: any, paths: string[]): Partial<T> => {
+  const copy: any = {};
+  paths.forEach((key) => {
+    copy[key] = obj[key];
+  });
+  return copy;
+};
+
+export const pickBy = <T extends object>(obj: any, iteratee: Function): Partial<T> => {
   const ret: any = {};
   Object.entries(obj).forEach(([key, value]) => {
     if (iteratee(value, key, obj)) {
