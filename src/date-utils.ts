@@ -72,7 +72,7 @@ export const millisTo = {
   letterTime: (ts_: number | undefined | null): string => (ts_ ? `${millisTo.human.loc._(ts_)} MSK / ${millisTo.human.utc.z(ts_)}` : '-'),
 };
 
-export const getInterval = (start: DateTime | Date | number, finish?: DateTime | Date | number): string => {
+export const getInterval = (start: DateTime | Date | number, finish?: DateTime | Date | number, language: string = 'en'): string => {
   if (!finish) {
     finish = Date.now();
   }
@@ -86,7 +86,7 @@ export const getInterval = (start: DateTime | Date | number, finish?: DateTime |
     .fromDateTimes(start, finish)
     .toDuration()
     .valueOf();
-  return humanizeDuration(formatted);
+  return humanizeDuration(formatted, { language });
 };
 
 export const timeParamRE = /^(\d+)\s*(years?|y|months?|mo|weeks?|w|days?|d|hours?|h|minutes?|min|m|seconds?|sec|s|milliseconds?|millis|ms|)$/i;
