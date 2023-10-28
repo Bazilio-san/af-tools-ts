@@ -1,9 +1,10 @@
 import { rs, green, magenta } from 'af-color';
+import { TInfoLine } from '../interfaces';
 
 export const infoBlock = (
   options: {
     title?: string,
-    info: ([string, any] | string)[] | string,
+    info: TInfoLine[] | string,
     width?: number,
     padding?: number,
     titleColor?: string,

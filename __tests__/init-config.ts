@@ -1,7 +1,6 @@
 import './dotenv';
 import * as configModule from 'config';
-import { AccessPoints } from 'af-consul';
-import { IAccessPoints } from 'af-consul/dist/types/interfaces';
+import { AccessPoints, IAccessPoints } from 'af-consul';
 
 export const config: any = configModule.util.toObject();
 
