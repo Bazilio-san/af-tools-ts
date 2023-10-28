@@ -211,6 +211,6 @@ export const isoToMillis = (str: string, zone: string = 'UTC') => {
   return dt.toMillis();
 };
 
-export const durationHHMMSS = (millis: number): string => Interval
+export const durationMillisToHHMMSS = (millis: number): string => Interval
   .fromDateTimes(new Date(0), new Date(millis))
   .toDuration().toFormat('hh:mm:ss');
