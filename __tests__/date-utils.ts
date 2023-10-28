@@ -7,7 +7,6 @@ console.log(getInterval(0, 345_000, 'ru'));
 
 const f = Interval
   .fromDateTimes(new Date(0), new Date(345_456))
-  .toDuration()
-  .valueOf();
+  .toDuration().toFormat('hh:mm:ss');
 
 console.log(f);
