@@ -24,6 +24,7 @@ export {
   getTimeParamMillis,
   TTimeUnit,
   isoToMillis,
+  durationMillisToHHMMSS,
 } from './date-utils';
 
 export { intervalPromise, TIntervalPromiseOptions, TStopIntervalPromiseFunc } from './interval-promise';
