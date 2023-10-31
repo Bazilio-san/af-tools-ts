@@ -100,6 +100,7 @@ export {
   hash,
   simpleRandomHash,
   simpleRandomUid,
+  hashCode,
 } from './crypto-hash-random';
 
 export { TInfoLine } from './interfaces';

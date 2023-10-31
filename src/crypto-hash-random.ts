@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 import * as os from 'os';
 import * as crypto from 'crypto';
 import { BinaryLike, Encoding } from 'crypto';
@@ -12,7 +13,10 @@ export const getInstanceKey = () => {
   return instanceKey;
 };
 
-export const hash = (data: string | BinaryLike, options?: { asTsqlUID?: boolean, inputEncoding?: Encoding }): string => {
+export const hash = (data: string | BinaryLike, options?: {
+  asTsqlUID?: boolean,
+  inputEncoding?: Encoding
+}): string => {
   const x = options?.inputEncoding
     ? crypto.createHash('md5').update(data as string, options?.inputEncoding).digest('hex')
     : crypto.createHash('md5').update(data as BinaryLike).digest('hex');
@@ -34,3 +38,15 @@ export const hash = (data: string | BinaryLike, options?: { asTsqlUID?: boolean,
 
 export const simpleRandomHash = (): string => hash(String(Date.now() + Math.random()));
 export const simpleRandomUid = (): string => hash(String(Date.now() + Math.random()), { asTsqlUID: true });
+
+export const hashCode = (s: any): number => {
+  if (typeof s === 'object') {
+    s = JSON.stringify(s);
+  }
+  s = String(s);
+  const hc = s.split('').reduce((a: number, b: string) => {
+    a = ((a << 5) - a) + b.charCodeAt(0);
+    return a & a;
+  }, 0);
+  return (hc + 2147483647) + 1;
+};
