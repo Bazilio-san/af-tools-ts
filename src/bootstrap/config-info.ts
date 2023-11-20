@@ -6,16 +6,11 @@ import { lBlue, cyan, yellow } from 'af-color';
 import { IConfigSource } from 'config';
 import { Debug } from '../debug';
 import { infoBlock } from './info-block';
+import { getConfig } from '../get-config';
 
 const YAML = require('json-to-pretty-yaml');
 
-let config: any;
-try {
-  // @ts-ignore
-  config = require('config');
-} catch (err) {
-  //
-}
+const config: any = getConfig();
 
 export const configInfo = (arg: { cfg: any, debugId?: string, dotEnvResult?: any }) => {
   const { cfg, debugId, dotEnvResult } = arg;
