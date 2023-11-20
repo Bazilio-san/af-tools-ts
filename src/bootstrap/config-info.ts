@@ -3,7 +3,6 @@
 */
 import { echo } from 'af-echo-ts';
 import { lBlue, cyan, yellow } from 'af-color';
-import { IConfigSource } from 'config';
 import { Debug } from '../debug';
 import { infoBlock } from './info-block';
 import { getConfig } from '../get-config';
@@ -11,6 +10,12 @@ import { getConfig } from '../get-config';
 const YAML = require('json-to-pretty-yaml');
 
 const config: any = getConfig();
+
+interface IConfigSource {
+  name: string;
+  original?: string | undefined;
+  parsed: any;
+}
 
 export const configInfo = (arg: { cfg: any, debugId?: string, dotEnvResult?: any }) => {
   const { cfg, debugId, dotEnvResult } = arg;
