@@ -1,4 +1,6 @@
 import { DateTime, ToISOTimeOptions, Interval } from 'luxon';
+import fs from 'fs';
+import path from 'path';
 
 export const START_OF_ERA_ISO = '1970-01-01T00:00:00.000Z';
 
@@ -6,9 +8,11 @@ const humanizeDuration = require('humanize-duration');
 
 let localTimezone: string = '';
 try {
-  // @ts-ignore
-  const config = require('config');
-  ({ localTimezone } = config);
+  const hasConfig = process.env.NODE_CONFIG_DIR || fs.existsSync(path.normalize(path.join(process.cwd(), 'config')));
+  if (hasConfig) {
+    const config = require('config');
+    ({ localTimezone } = config);
+  }
 } catch (err) {
   //
 }
