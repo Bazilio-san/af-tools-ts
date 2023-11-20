@@ -6,7 +6,7 @@ export const START_OF_ERA_ISO = '1970-01-01T00:00:00.000Z';
 const humanizeDuration = require('humanize-duration');
 
 const config: any = getConfig();
-const { localTimezone = '' } = config;
+const { localTimezone = '' } = config || {};
 
 export const LOCAL_TIMEZONE = localTimezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
