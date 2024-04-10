@@ -22,14 +22,20 @@ export function DebugExact (debugPattern: string) {
   return debug;
 }
 
-export function Debug (debugPattern: string, noTime?: boolean) {
+export function Debug (debugPattern: string, options?: boolean | { noTime?: boolean, noPrefix?: boolean }) {
+  let noTime = false;
+  let noPrefix = false;
+  if (typeof options === 'boolean') {
+    noTime = options;
+  } else {
+    noTime = Boolean(options?.noTime);
+    noPrefix = Boolean(options?.noPrefix);
+  }
+
   function debug (msg: string) {
     if (debug.enabled) {
-      if (noTime) {
-        echo(c + msg);
-      } else {
-        echo(`${DateTime.now().setZone('UTC').toFormat('HH:mm:ss')} ${c}${msg}`);
-      }
+      const prefix = noPrefix ? '' : `${debugPattern}: `;
+      echo(`${noTime ? '' : `${DateTime.now().setZone('UTC').toFormat('HH:mm:ss')}: `}${prefix}${c}${msg}`);
     }
   }
 
