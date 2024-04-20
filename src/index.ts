@@ -5,6 +5,7 @@ export {
   Debug,
   dbg,
   DebugExact,
+  IDebugOptions,
 } from './debug';
 
 export { configInfo } from './bootstrap/config-info';
@@ -27,7 +28,11 @@ export {
   durationMillisToHHMMSS,
 } from './date-utils';
 
-export { intervalPromise, TIntervalPromiseOptions, TStopIntervalPromiseFunc } from './interval-promise';
+export {
+  intervalPromise,
+  TIntervalPromiseOptions,
+  TStopIntervalPromiseFunc,
+} from './interval-promise';
 
 export {
   ITraverseNode,
@@ -55,6 +60,7 @@ export {
   pick,
   every,
   omitBy,
+  baseGet,
 } from './object-utils';
 
 export {

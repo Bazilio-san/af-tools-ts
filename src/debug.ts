@@ -1,9 +1,18 @@
 import { DateTime } from 'luxon';
-import { c } from 'af-color';
+import {
+  black, c, green, yellow, blue, magenta, cyan, lGreen, lYellow, lBlue, lMagenta, lCyan,
+} from 'af-color';
 import { echo } from 'af-echo-ts';
 
 export const DEBUG = (String(process.env.DEBUG || '')).trim();
 export const IS_TOTAL_DEBUG = DEBUG === '*';
+
+export interface IDebugOptions {
+  noTime?: boolean,
+  noPrefix?: boolean,
+  prefixColor?: string | 'random',
+  messageColor?: string,
+}
 
 export const dbg = (str: string) => {
   echo(`${DateTime.now().setZone('UTC').toFormat('HH:mm:ss')} ${c}${str}`);
@@ -22,20 +31,28 @@ export function DebugExact (debugPattern: string) {
   return debug;
 }
 
-export function Debug (debugPattern: string, options?: boolean | { noTime?: boolean, noPrefix?: boolean }) {
+export function Debug (debugPattern: string, options?: boolean | IDebugOptions) {
   let noTime = false;
   let noPrefix = false;
+  let prefixColor = black;
+  let messageColor = cyan;
   if (typeof options === 'boolean') {
     noTime = options;
   } else {
     noTime = Boolean(options?.noTime);
     noPrefix = Boolean(options?.noPrefix);
+    prefixColor = options?.prefixColor || black;
+    messageColor = options?.messageColor || cyan;
+  }
+
+  if (prefixColor === 'random') {
+    prefixColor = [green, yellow, blue, magenta, cyan, lGreen, lYellow, lBlue, lMagenta, lCyan][Math.floor(Math.random() * 10)] || cyan;
   }
 
   function debug (msg: string) {
     if (debug.enabled) {
-      const prefix = noPrefix ? '' : `${debugPattern}: `;
-      echo(`${noTime ? '' : `${DateTime.now().setZone('UTC').toFormat('HH:mm:ss')}: `}${prefix}${c}${msg}`);
+      const prefix = noPrefix ? '' : `${prefixColor}${debugPattern}: `;
+      echo(`${noTime ? '' : `${DateTime.now().setZone('UTC').toFormat('HH:mm:ss')}: `}${prefix}${messageColor}${msg}`);
     }
   }
 
