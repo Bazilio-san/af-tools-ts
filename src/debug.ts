@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 import {
-  black, c, green, yellow, blue, magenta, cyan, lGreen, lYellow, lBlue, lMagenta, lCyan,
+  black, c, green, yellow, blue, magenta,
+  cyan, lGreen, lYellow, lBlue, lMagenta, lCyan, boldOff,
 } from 'af-color';
 import { echo } from 'af-echo-ts';
 
@@ -51,7 +52,7 @@ export function Debug (debugPattern: string, options?: boolean | IDebugOptions) 
 
   function debug (msg: string) {
     if (debug.enabled) {
-      const prefix = noPrefix ? '' : `${prefixColor}${debugPattern}: `;
+      const prefix = noPrefix ? '' : `${prefixColor}${debugPattern}${boldOff}: `;
       echo(`${noTime ? '' : `${DateTime.now().setZone('UTC').toFormat('HH:mm:ss')}: `}${prefix}${messageColor}${msg}`);
     }
   }
