@@ -320,7 +320,7 @@ export const baseGet = (object: any, path: string | string[]): any | undefined =
   return (index && index === length) ? object : undefined;
 };
 
-export const get = (object: any, path: string | string[], defaultValue: any): any | undefined => {
+export const getPropertyByPath = (object: any, path: string | string[], defaultValue: any): any | undefined => {
   if (typeof path === 'string') {
     path = path.trim();
     if (!path) {

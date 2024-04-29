@@ -52,7 +52,7 @@ export {
   pickBy,
   compare,
   isEqual,
-  get,
+  getPropertyByPath,
   isObjectCircular,
   stringifySafe,
   sanitize,
