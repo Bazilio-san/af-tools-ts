@@ -61,6 +61,9 @@ export {
   every,
   omitBy,
   baseGet,
+  diffAB,
+  objectsDiff,
+  TDiffs,
 } from './object-utils';
 
 export {

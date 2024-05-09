@@ -87,7 +87,7 @@ export const flattenObjectPrimitiveLeafs = (obj: any, options: {
   return leafs;
 };
 
-export const cloneDeep = <T = any>(
+export const cloneDeep = <T = any> (
   obj: any,
   options: { pureObj?: boolean, skipSymbols?: boolean } = {},
   hash = new WeakMap(),
@@ -201,7 +201,7 @@ export const omit = (obj: any, paths: string[]): any => {
   return copy;
 };
 
-export const omitBy = <T extends object>(obj: any, iteratee: Function): Partial<T> => {
+export const omitBy = <T extends object> (obj: any, iteratee: Function): Partial<T> => {
   const copy = cloneDeep(obj);
   Object.entries(obj).forEach(([key, value]) => {
     if (iteratee(value, key, obj)) {
@@ -211,7 +211,7 @@ export const omitBy = <T extends object>(obj: any, iteratee: Function): Partial<
   return copy;
 };
 
-export const pick = <T extends object>(obj: any, paths: string[]): Partial<T> => {
+export const pick = <T extends object> (obj: any, paths: string[]): Partial<T> => {
   const copy: any = {};
   paths.forEach((key) => {
     copy[key] = obj[key];
@@ -219,7 +219,7 @@ export const pick = <T extends object>(obj: any, paths: string[]): Partial<T> =>
   return copy;
 };
 
-export const pickBy = <T extends object>(obj: any, iteratee: Function): Partial<T> => {
+export const pickBy = <T extends object> (obj: any, iteratee: Function): Partial<T> => {
   const ret: any = {};
   Object.entries(obj).forEach(([key, value]) => {
     if (iteratee(value, key, obj)) {
@@ -229,7 +229,7 @@ export const pickBy = <T extends object>(obj: any, iteratee: Function): Partial<
   return ret;
 };
 
-export const every = <T extends object>(obj: T, iteratee: (value: any, key: string | number, obj: T) => boolean)
+export const every = <T extends object> (obj: T, iteratee: (value: any, key: string | number, obj: T) => boolean)
   : boolean => Object.entries(obj).every(([key, value]: [string, T]) => iteratee(value, key, obj));
 
 /**
@@ -357,3 +357,37 @@ const getCircularReplacer = () => {
 
 export const stringifySafe = (obj: any): any => JSON.stringify(obj, getCircularReplacer());
 export const sanitize = (obj: any): any => JSON.parse(JSON.stringify(obj, getCircularReplacer()));
+
+export type TDiffs = { [p: string]: [any, any] };
+
+export const diffAB = (a: any, b: any): TDiffs => {
+  const d: TDiffs = {};
+  const callback = (args: ITraverseNode) => {
+    // VVQ val ?
+    const { key, val, parents, path, isLeaf, isPrimitive, isRoot } = args;
+    if (isPrimitive && key && isLeaf && !isRoot) {
+      const valueA = getPropertyByPath(a, path, undefined);
+      const valueB = getPropertyByPath(b, path, undefined);
+      if (valueA !== valueB) {
+        d[path.join('.')] = [valueA, valueB];
+      }
+    }
+  };
+  traverse(a, callback);
+  return d;
+};
+
+export const objectsDiff = (left: any, rght: any): TDiffs | undefined => {
+  if (left === rght) {
+    return;
+  }
+  const leftDiff: TDiffs = diffAB(left, rght);
+  const rightDiff: TDiffs = diffAB(rght, left);
+  Object.keys(leftDiff).forEach((p) => {
+    delete rightDiff[p];
+  });
+  Object.entries(rightDiff).forEach(([p, v]) => {
+    leftDiff[p] = [v[1], v[0]];
+  });
+  return Object.keys(leftDiff).length ? leftDiff : undefined;
+};
