@@ -364,9 +364,8 @@ export const diffAB = (a: any, b: any): TDiffs => {
   const d: TDiffs = {};
   const callback = (args: ITraverseNode) => {
     // VVQ val ?
-    const { key, val, parents, path, isLeaf, isPrimitive, isRoot } = args;
+    const { key, val: valueA, path, isLeaf, isPrimitive, isRoot } = args;
     if (isPrimitive && key && isLeaf && !isRoot) {
-      const valueA = getPropertyByPath(a, path, undefined);
       const valueB = getPropertyByPath(b, path, undefined);
       if (valueA !== valueB) {
         d[path.join('.')] = [valueA, valueB];
