@@ -363,7 +363,6 @@ export type TDiffs = { [p: string]: [any, any] };
 export const diffAB = (a: any, b: any): TDiffs => {
   const d: TDiffs = {};
   const callback = (args: ITraverseNode) => {
-    // VVQ val ?
     const { key, val: valueA, path, isLeaf, isPrimitive, isRoot } = args;
     if (isPrimitive && key && isLeaf && !isRoot) {
       const valueB = getPropertyByPath(b, path, undefined);
