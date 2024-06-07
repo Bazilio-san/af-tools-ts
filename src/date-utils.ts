@@ -8,6 +8,10 @@ const humanizeDuration = require('humanize-duration');
 const config: any = getConfig();
 const { localTimezone = '' } = config || {};
 
+export type TLang = 'ru' | 'en';
+
+const defaultLanguage = 'en';
+
 export const LOCAL_TIMEZONE = localTimezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 export const LOCAL_TIMEZONE_OFFSET_MILLIS = DateTime.now().setZone(LOCAL_TIMEZONE).offset * 60_000;
@@ -60,7 +64,7 @@ export const millisTo = {
     locT: (millis?: number): string | null => `'${loc$(millis).toISO({ includeOffset: false })}'`,
     // '2022-05-15' (время локальное)
     locDate: (millis?: number) => `'${loc$(millis).toFormat('yyyy-MM-dd')}'`,
-    // '2022-05-15T16:56:42.349'::timestamptz (UTC)
+    // '2024-06-07T23:23:00.000Z'::timestamptz
     pgUtc: (millis?: number): string => `'${utc$(millis).toISO()}'::timestamptz`,
     // '2022-05-15T16:56 UTC'::timestamptz
     pgUtcMm: (millis?: number): string => `'${utc$(millis).toFormat('yyyy-MM-dd HH:mm z')}'::timestamptz`,
@@ -68,7 +72,7 @@ export const millisTo = {
   letterTime: (ts_: number | undefined | null): string => (ts_ ? `${millisTo.human.loc._(ts_)} MSK / ${millisTo.human.utc.z(ts_)}` : '-'),
 };
 
-export const getInterval = (start: DateTime | Date | number, finish?: DateTime | Date | number, language: string = 'en'): string => {
+export const getInterval = (start: DateTime | Date | number, finish?: DateTime | Date | number, language: string = defaultLanguage): string => {
   if (!finish) {
     finish = Date.now();
   }
@@ -145,55 +149,80 @@ export const getTimeParamMillis = (val: string | number): number => {
 
 export type TTimeUnit = 'd' | 'h' | 'm' | 's' | 'ms';
 
-export const getTimeParamFromMillis = (millis: number, roundTo: 'd' | 'h' | 'm' | 's' | 'biggest' | '' = ''): string => {
+type TTimeUnits = { ms: string, s: string, m: string, h: string, d: string }
+
+type TTimeUnitsLng = { [lng: string]: { short: TTimeUnits, middle: TTimeUnits } }
+
+const tdb: TTimeUnitsLng = {
+  ru: {
+    short: { ms: 'мс', s: 'с', m: 'м', h: 'ч', d: 'д' },
+    middle: { ms: 'миллис.', s: ' сек.', m: ' мин.', h: ' ч.', d: ' дн.' },
+  },
+  en: {
+    short: { ms: 'ms', s: 's', m: 'm', h: 'h', d: 'd' },
+    middle: { ms: 'millis.', s: ' sec.', m: ' min.', h: ' hr', d: ' days' },
+  },
+};
+tdb['en-us'] = tdb.en;
+
+type TTimeParamFromMillisOptions = {
+  roundTo?: 'd' | 'h' | 'm' | 's' | 'biggest' | '',
+  lng?: TLang,
+}
+
+export const getTimeParamFromMillis = (millis: number, options?: TTimeParamFromMillisOptions): string => {
+  const roundTo = options?.roundTo || '';
+  const lng = options?.lng || defaultLanguage;
   let seconds = millis < 1000 ? 0 : Math.floor(millis / 1000);
+  const tl = (timeUnit: TTimeUnit) => tdb[lng]?.short[timeUnit] || timeUnit;
+
   if (roundTo === 's') {
-    return `${seconds} s`;
+    return `${seconds} ${tl('s')}`;
   }
   millis %= 1000;
   let minutes = seconds < 60 ? 0 : Math.floor(seconds / 60);
   if (roundTo === 'm') {
-    return `${minutes} m`;
+    return `${minutes} ${tl('m')}`;
   }
   seconds %= 60;
   let hours = minutes < 60 ? 0 : Math.floor(minutes / 60);
   if (roundTo === 'h') {
-    return `${hours} h`;
+    return `${hours} ${tl('h')}`;
   }
   minutes %= 60;
   const days = hours < 24 ? 0 : Math.floor(hours / 24);
   if (roundTo === 'd') {
-    return `${days} d`;
+    return `${days} ${tl('d')}`;
   }
   hours %= 24;
   if (roundTo === 'biggest') {
     if (days) {
-      return `${days} d`;
+      return `${days} ${tl('d')}`;
     }
     if (hours) {
-      return `${hours} h`;
+      return `${hours} ${tl('h')}`;
     }
     if (minutes) {
-      return `${minutes} m`;
+      return `${minutes} ${tl('m')}`;
     }
     if (seconds) {
-      return `${seconds} s`;
+      return `${seconds} ${tl('s')}`;
     }
-    return `${millis} ms`;
+    return `${millis} ${tl('ms')}`;
   }
   if (millis) {
-    return `${millis + seconds * 1000 + minutes * 60_000 + hours * 60 * 60_000 + days * 24 * 60 * 60_000} ms`;
+    return `${millis + seconds * 1000 + minutes * 60_000 + hours * 60 * 60_000 + days * 24 * 60 * 60_000} ${tl('ms')}`;
   }
   if (seconds) {
-    return `${seconds + minutes * 60 + hours * 60 * 60 + days * 24 * 60 * 60} s`;
+    return `${seconds + minutes * 60 + hours * 60 * 60 + days * 24 * 60 * 60} ${tl('s')}`;
   }
   if (minutes) {
-    return `${minutes + hours * 60 + days * 24 * 60} m`;
+    return `${minutes + hours * 60 + days * 24 * 60} ${tl('m')}`;
   }
   if (hours) {
-    return `${hours + days * 24} h`;
+    return `${hours + days * 24} ${tl('h')}`;
   }
-  return `${days} d`;
+  return `${days} ${tl('d')} `;
 };
 
 export const isoToMillis = (str: string, zone: string = 'UTC') => {
@@ -210,3 +239,71 @@ export const isoToMillis = (str: string, zone: string = 'UTC') => {
 export const durationMillisToHHMMSS = (millis: number): string => Interval
   .fromDateTimes(new Date(0), new Date(millis))
   .toDuration().toFormat('hh:mm:ss');
+
+interface IHumanizeDurationSecOptions {
+  zero?: string,
+  showLeadZeros?: boolean,
+  lng?: TLang,
+  delim?: string,
+}
+
+/**
+ * Return string like 3 мин 29 с.
+ */
+export const humanizeDurationSec = (seconds: number | string, options: IHumanizeDurationSecOptions = {}) => {
+  const { zero = '0', showLeadZeros = false, lng = defaultLanguage, delim = ' ' } = options;
+
+  const l = Object.keys(tdb).includes(lng) ? lng : defaultLanguage;
+  const n = tdb[l].middle;
+  seconds = Math.round((typeof seconds === 'number' ? seconds : parseFloat(seconds)) || 0);
+  if (!seconds) {
+    return zero;
+  }
+  let minutes = Math.floor(seconds / 60);
+  seconds %= 60;
+  let hours = Math.floor(minutes / 60);
+  minutes %= 60;
+  const days = Math.floor(hours / 24);
+  hours %= 24;
+  const arr = [`${days}${n.d}`, `${hours}${n.h}`, `${minutes}${n.m}`, `${seconds}${n.s}`];
+  if (!showLeadZeros) {
+    if (!days) {
+      arr.shift();
+      if (!hours) {
+        arr.shift();
+        if (!minutes) {
+          arr.shift();
+        }
+      }
+    }
+  }
+  return arr.join(delim);
+};
+
+// https://stackoverflow.com/questions/3143070/regex-to-match-an-iso-8601-datetime-string
+const isoRE = /^\d{4}-(?:0[1-9]|1[0-2])-(?:[0-2][1-9]|[1-3]0|3[01])T(?:[0-1][0-9]|2[0-3])(?::[0-6]\d)(?::[0-6]\d)?(?:\.\d{3})?(?:[+-][0-2]\d:[0-5]\d|Z)?$/im;
+const tzRE = /^.+?([+-][0-2]\d:[0-5]\d|Z)?$/im;
+
+export const isISO = (v: string) => isoRE.test(v);
+
+export const getTimeOffsetFromISO = (v: string) => (tzRE.exec(v) || [])[1];
+
+/**
+ * Нормализует дату, преобразовывая из текстового ISO формата в JS date.
+ * Выводит ошибку в консоль, если строковое значение не соответствует ISO формату.
+ */
+export const normalizeJSDate = (v: any, errorCallback?: (v: string) => void, errorPrefix?: string) => {
+  if (typeof v === 'object') {
+    return v; // Date || null
+  }
+  if (typeof v === 'number') {
+    return new Date(v);
+  }
+  if (typeof v === 'string' && isISO(v)) {
+    return new Date(Date.parse(v));
+  }
+  if (typeof errorCallback === 'function') {
+    errorCallback(`${errorPrefix || ''}Wrong date: ${v} / type: ${typeof v}`);
+  }
+  return null;
+};

@@ -26,6 +26,12 @@ export {
   TTimeUnit,
   isoToMillis,
   durationMillisToHHMMSS,
+
+  isISO,
+  TLang,
+  humanizeDurationSec,
+  normalizeJSDate,
+  getTimeOffsetFromISO,
 } from './date-utils';
 
 export {
