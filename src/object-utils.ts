@@ -389,3 +389,5 @@ export const objectsDiff = (left: any, rght: any): TDiffs | undefined => {
   });
   return Object.keys(leftDiff).length ? leftDiff : undefined;
 };
+
+export const isFunctionAsync = (fn: any): boolean => fn?.constructor?.name === 'AsyncFunction';

@@ -70,6 +70,7 @@ export {
   diffAB,
   objectsDiff,
   TDiffs,
+  isFunctionAsync,
 } from './object-utils';
 
 export {
