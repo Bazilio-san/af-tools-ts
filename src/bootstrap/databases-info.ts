@@ -1,4 +1,4 @@
-import { magenta, rs, cyan, lBlue, underline, underlineOff } from 'af-color';
+import { magenta, rs, cyan, lBlue, underline, underlineOff, yellow } from 'af-color';
 import { TInfoLine } from '../interfaces';
 
 const getDbs = (dbs: any, filter?: string[]): TInfoLine<string>[] => {
@@ -9,11 +9,17 @@ const getDbs = (dbs: any, filter?: string[]): TInfoLine<string>[] => {
   Object.entries(dbs)
     .filter(([dbId]) => !filter || filter.includes(dbId))
     .forEach(([dbId, dbConfig]) => {
-      const { server: s, host: h, port: p, database: d, user: u } = dbConfig as any;
-      if ((!s && !h) || !d || !u) {
+      const { server, host, port, database, user, label } = dbConfig as any;
+      if ((!server && !host) || !database || !user) {
         return;
       }
-      const descr = `${cyan}${u}${rs}@${magenta}[${s || h}:${p}].[${lBlue}${underline}${d}${underlineOff}${magenta}]`;
+      const lb = `${magenta}[${rs}`;
+      const rb = `${magenta}]${rs}`;
+      const login = `${cyan}${user}${rs}`;
+      const hostPort = `${lb}${magenta}${server || host}:${port}${rb}`;
+      const dbName = `${lb}${lBlue}${underline}${database}${underlineOff}${rb}`;
+      const dbLabel = label ? `${yellow}${label}${rs}\t` : '';
+      const descr = `${dbLabel}${login}@${hostPort}.${dbName}`;
       result.push([`  ${underline}${dbId}${underlineOff}`, descr]);
     });
   return result;
