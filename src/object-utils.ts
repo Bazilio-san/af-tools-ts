@@ -1,4 +1,5 @@
 export interface ITraverseNode {
+  parent: any,
   key: string | undefined,
   val: any,
   parents: string[],
@@ -15,13 +16,14 @@ export const traverse = (
   parents: string[] = [],
   key: string | undefined = undefined,
   hash: WeakSet<any> = new WeakSet(),
+  parent: any = undefined,
 ) => {
   const isRoot = key === undefined;
   const path = isRoot ? [] : [...parents, key];
   let isPrimitive = false;
   const ret = (isLeaf = true, isCyclic = false) => {
     callback({
-      key, val, parents, path, isLeaf, isPrimitive, isRoot, isCyclic,
+      parent, key, val, parents, path, isLeaf, isPrimitive, isRoot, isCyclic,
     });
   };
 
@@ -41,12 +43,12 @@ export const traverse = (
   }
   if (val instanceof Map) {
     ret(false);
-    [...val.entries()].forEach(([key2, val2]) => traverse(val2, callback, path, key2, hash));
+    [...val.entries()].forEach(([key2, val2]) => traverse(val2, callback, path, key2, hash, val));
     return;
   }
   ret(false);
   Object.entries(val).forEach(([key2, val2]) => {
-    traverse(val2, callback, path, key2, hash);
+    traverse(val2, callback, path, key2, hash, val);
   });
 };
 
