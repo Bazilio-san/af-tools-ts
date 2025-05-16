@@ -44,7 +44,7 @@ const prettyPrintJson = {
       const boolType = ['true', 'false'].includes(value) && 'boolean';
       const nullType = value === 'null' && 'null';
       const type = boolType || nullType || strType || 'number';
-      const urlPattern = /https?:\/\/[^\s"]+/g;
+      const urlPattern = /https?:\/\/[^\s"]+?(?=&bsol;&quot;|"|$)/g;
       const target = settings.linksNewTab ? ' target=_blank' : '';
       const makeLink = (link: string) => `<a class=json-link href="${link}"${target}>${link}</a>`;
       const display = strType && settings.linkUrls ? value.replace(urlPattern, makeLink) : value;
