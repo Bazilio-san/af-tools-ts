@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import {
   black, c, green, yellow, blue, magenta,
-  cyan, lGreen, lYellow, lBlue, lMagenta, lCyan, boldOff, reset
+  cyan, lGreen, lYellow, lBlue, lMagenta, lCyan, boldOff, reset,
 } from 'af-color';
 import { echo } from 'af-echo-ts';
 
@@ -13,6 +13,7 @@ export interface IDebugOptions {
   noPrefix?: boolean,
   prefixColor?: string | 'random',
   messageColor?: string,
+  envPrefix?: string,
 }
 
 export const dbg = (str: string) => {
@@ -37,6 +38,7 @@ export function Debug (debugPattern: string, options?: boolean | IDebugOptions) 
   let noPrefix = false;
   let prefixColor = black;
   let messageColor = cyan;
+  let envPrefix = '';
   if (typeof options === 'boolean') {
     noTime = options;
   } else {
@@ -44,6 +46,7 @@ export function Debug (debugPattern: string, options?: boolean | IDebugOptions) 
     noPrefix = Boolean(options?.noPrefix);
     prefixColor = options?.prefixColor || black;
     messageColor = options?.messageColor || cyan;
+    envPrefix = options?.envPrefix || '';
   }
 
   if (prefixColor === 'random') {
@@ -57,7 +60,9 @@ export function Debug (debugPattern: string, options?: boolean | IDebugOptions) 
     }
   }
 
-  debug.enabled = IS_TOTAL_DEBUG || (getDbgRe(debugPattern)).test(DEBUG);
+  const debugEnvValue = envPrefix ? (String(process.env[`${envPrefix}DEBUG`] || '')).trim() : DEBUG;
+
+  debug.enabled = IS_TOTAL_DEBUG || (getDbgRe(debugPattern)).test(debugEnvValue);
   return debug;
 }
 
