@@ -49,14 +49,14 @@ describe('rnsd function', () => {
   testCases.forEach(({ input, digits, expected }) => {
     it(`should round ${input} to ${digits} significant digits and return ${expected}`, () => {
       let result: number;
-      
+
       if (input === 1.005 && digits === 3) {
         // Use the debug function for the problematic case
         result = debugRnsd(input, digits);
       } else {
         result = rnsd(input, digits);
       }
-      
+
       expect(Math.abs(result - expected)).toBeLessThan(1e-10);
     });
   });
