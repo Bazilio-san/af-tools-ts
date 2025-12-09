@@ -107,6 +107,8 @@ export const cloneDeep = <T = any> (
     result = new Date(obj);
   } else if (obj instanceof RegExp) {
     result = new RegExp(obj.source, obj.flags);
+  } else if (typeof Buffer !== 'undefined' && Buffer.isBuffer(obj)) {
+    result = Buffer.from(obj);
   } else if (obj instanceof Function) {
     result = obj;
   } else if (!pureObj && obj.constructor) {
