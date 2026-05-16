@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Interval } from 'luxon';
 import { getInterval, millisTo } from '../src';
 

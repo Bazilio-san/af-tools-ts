@@ -27,3 +27,5 @@ local*.*
 /**/.env*
 **/dist
 
+/.serena/.gitignore
+/.serena/project.yml

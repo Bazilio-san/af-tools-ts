@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // Test script for the rnsd function
 import { rnsd } from '../src/utils';
 

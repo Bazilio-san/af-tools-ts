@@ -16,6 +16,8 @@
       "jest"
     ],
     "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
+    "rootDir": ".",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
